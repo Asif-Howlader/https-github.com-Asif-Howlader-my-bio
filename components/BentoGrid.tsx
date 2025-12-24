@@ -6,17 +6,24 @@ interface BentoGridProps {
 }
 
 const BentoGrid: React.FC<BentoGridProps> = ({ data }) => {
-  // Safe skill extraction
-  const flatSkills = Array.isArray(data.skills) 
-    ? (typeof data.skills[0] === 'string' 
-        ? (data.skills as string[]) 
-        : (data.skills as SkillGroup[]).flatMap(s => s.skills))
+  // Safe extraction with default fallbacks
+  const skills = data.skills || [];
+  const flatSkills = Array.isArray(skills) 
+    ? (skills.length > 0 && typeof skills[0] === 'string' 
+        ? (skills as string[]) 
+        : (skills as SkillGroup[]).flatMap(s => s.skills || []))
     : [];
+
+  const experience = data.experience || [];
+  const education = data.education || [];
+  const toolsets = data.toolsets || [];
+  const training = data.training || [];
+  const languages = data.languages || [];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-fr">
       
-      {/* Bio / About - Medium Span */}
+      {/* Bio / About */}
       <div className="md:col-span-2 lg:col-span-2 bg-white/5 border border-white/10 p-8 rounded-3xl flex flex-col justify-center backdrop-blur-xl">
         <h3 className="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-4">Location & Identity</h3>
         <p className="text-slate-300 text-lg leading-relaxed mb-6">
@@ -26,7 +33,7 @@ const BentoGrid: React.FC<BentoGridProps> = ({ data }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-400">
            <div className="flex items-center gap-3">
              <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">📍</div>
-             <span className="truncate">{data.contact.address.split('.')[0]}</span>
+             <span className="truncate">{data.contact.address.split(',')[0]}</span>
            </div>
            <div className="flex items-center gap-3">
              <div className="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400">📞</div>
@@ -35,19 +42,19 @@ const BentoGrid: React.FC<BentoGridProps> = ({ data }) => {
         </div>
       </div>
 
-      {/* Experience - Large Span */}
+      {/* Experience */}
       <div className="md:col-span-3 lg:col-span-2 lg:row-span-2 bg-white/5 border border-white/10 p-8 rounded-3xl overflow-hidden relative backdrop-blur-xl">
         <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-600/10 blur-3xl rounded-full"></div>
         <h3 className="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-6">Deployment History</h3>
         <div className="space-y-8">
-          {data.experience.map((exp, i) => (
+          {experience.map((exp, i) => (
             <div key={i} className="relative pl-6 border-l border-white/10 group">
               <div className="absolute -left-[5px] top-1.5 w-[9px] h-[9px] rounded-full bg-slate-700 group-hover:bg-cyan-500 transition-colors"></div>
               <div className="text-[10px] font-bold text-slate-500 mb-1">{exp.period}</div>
               <h4 className="text-white font-bold">{exp.role}</h4>
               <p className="text-xs text-slate-400 mb-2 uppercase tracking-wide">{exp.company}</p>
               <div className="flex flex-wrap gap-1">
-                {exp.responsibilities.slice(0, 2).map((r, j) => (
+                {(exp.responsibilities || []).slice(0, 2).map((r, j) => (
                   <span key={j} className="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-slate-300">{r}</span>
                 ))}
               </div>
@@ -56,7 +63,7 @@ const BentoGrid: React.FC<BentoGridProps> = ({ data }) => {
         </div>
       </div>
 
-      {/* Skills - Square */}
+      {/* Skills */}
       <div className="bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-xl">
         <h3 className="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-6">Core Skills</h3>
         <div className="flex flex-wrap gap-2">
@@ -69,11 +76,11 @@ const BentoGrid: React.FC<BentoGridProps> = ({ data }) => {
         </div>
       </div>
 
-      {/* Education - Large */}
+      {/* Education */}
       <div className="md:col-span-2 lg:col-span-2 bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-xl">
         <h3 className="text-indigo-400 text-xs font-bold uppercase tracking-widest mb-6">Education</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {data.education.map((edu, i) => (
+          {education.map((edu, i) => (
             <div key={i} className="flex gap-4">
               <div className="shrink-0 w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 font-bold text-xs">
                 {edu.period.split(' ')[0]}
@@ -91,7 +98,7 @@ const BentoGrid: React.FC<BentoGridProps> = ({ data }) => {
       <div className="md:col-span-1 lg:col-span-1 bg-zinc-900 border border-white/10 p-8 rounded-3xl">
         <h3 className="text-amber-400 text-xs font-bold uppercase tracking-widest mb-4">Toolkit</h3>
         <div className="space-y-4">
-           {data.toolsets?.slice(0, 2).map((ts, i) => (
+           {toolsets.slice(0, 2).map((ts, i) => (
              <div key={i}>
                 <div className="text-[9px] font-bold text-slate-500 uppercase mb-2">{ts.category}</div>
                 <div className="flex flex-wrap gap-1">
@@ -106,14 +113,14 @@ const BentoGrid: React.FC<BentoGridProps> = ({ data }) => {
 
        {/* Training Count */}
        <div className="bg-white/5 border border-white/10 p-8 rounded-3xl flex flex-col justify-center items-center text-center backdrop-blur-xl">
-        <div className="text-4xl font-black text-cyan-400 mb-1">{data.training?.length || 0}</div>
+        <div className="text-4xl font-black text-cyan-400 mb-1">{training.length}</div>
         <div className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Certifications</div>
       </div>
 
       {/* Reference Snippet */}
       <div className="md:col-span-2 lg:col-span-1 bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-xl">
         <h3 className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">References</h3>
-        {data.references && data.references[0] && (
+        {data.references && data.references[0] ? (
           <>
             <p className="text-[10px] text-slate-400 italic">"Highly recommended for complex IT infrastructure projects."</p>
             <div className="mt-4 pt-4 border-t border-white/5">
@@ -121,6 +128,8 @@ const BentoGrid: React.FC<BentoGridProps> = ({ data }) => {
                <div className="text-[9px] text-slate-500 uppercase">{data.references[0].role}</div>
             </div>
           </>
+        ) : (
+          <p className="text-[10px] text-slate-500">Available upon request.</p>
         )}
       </div>
 
@@ -128,7 +137,7 @@ const BentoGrid: React.FC<BentoGridProps> = ({ data }) => {
       <div className="lg:col-span-1 bg-white/5 border border-white/10 p-8 rounded-3xl flex flex-col justify-center backdrop-blur-xl">
          <h3 className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">Linguistic</h3>
          <div className="space-y-2">
-            {data.languages.map((lang, i) => (
+            {languages.map((lang, i) => (
               <div key={i} className="flex justify-between items-center text-[10px] font-bold uppercase">
                 <span className="text-white">{lang.split(' ')[0]}</span>
                 <span className="text-cyan-500">{lang.split(' ')[1] || 'Expert'}</span>
