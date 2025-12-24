@@ -67,20 +67,35 @@ export const portfolioData: PortfolioData = {
   ],
   languages: ["Bengali (Native)", "English (Professional)"],
   projects: [
+    // {
+    //   name: "automated video search, play and download one by one from YouTube",
+    //   url: "https://github.com/saddamhowlader",
+    //   description: "Python-based automation for media stream processing and local storage."
+    // },
+    // {
+    //   name: "Network Traffic Analyzer & Intrusion Detection System",
+    //   url: "https://github.com/saddamhowlader",
+    //   description: "Real-time packet inspection tool built with Scapy for security auditing."
+    // },
+    // {
+    //   name: "Automated Server Security Hardening Script",
+    //   url: "https://github.com/saddamhowlader",
+    //   description: "Bash/Python utility for fast deployment of security baselines on Linux."
+    // }
     {
-      name: "automated video search, play and download one by one from YouTube",
-      url: "https://github.com/saddamhowlader",
-      description: "Python-based automation for media stream processing and local storage."
+      "name": "Automated video search, play and download one by one from YouTube",
+      "url": "https://github.com/Asif-Howlader/youtube_d.git",
+      "description": "Python automation for video searching and sequential downloading."
     },
     {
-      name: "Network Traffic Analyzer & Intrusion Detection System",
-      url: "https://github.com/saddamhowlader",
-      description: "Real-time packet inspection tool built with Scapy for security auditing."
+      "name": "[Empty Project Slot 02]",
+      "url": "#",
+      "description": "Project documentation pending."
     },
     {
-      name: "Automated Server Security Hardening Script",
-      url: "https://github.com/saddamhowlader",
-      description: "Bash/Python utility for fast deployment of security baselines on Linux."
+      "name": "Security Information and Event Management",
+      "url": "https://github.com/Asif-Howlader/SIEM.git",
+      "description": "Executing the agent script, the mother solution will collect different types of logs."
     }
   ]
 };
