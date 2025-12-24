@@ -1,0 +1,67 @@
+
+{
+  "name": "Saddam Howlader",
+  "title": "IT Officer",
+  "profile_image": "input_file_1.png",
+  "contact": {
+    "email": "asifnowlader4@gmail.com",
+    "phone": "(+880) 1970321576",
+    "address": "House 8/1, Block-3, Road-06, Fulbadia, Turag, Dhaka-1230. Home: Master Colony, Madaripur, Bangladesh",
+    "linkedin": "linkedin.com/in/saddamhowlader/",
+    "twitter": "x.com/saddamhowlader6"
+  },
+  "experience": [
+    {
+      "role": "IT Officer",
+      "company": "Government ICT Project",
+      "period": "08/05/2022 – Present",
+      "location": "Dhaka, Bangladesh",
+      "responsibilities": [
+        "Infrastructure maintenance & specialized technical support",
+        "Lead Web Application Development and security testing",
+        "Implementation of Digital Forensic protocols for project assets",
+        "Vendor relationship management and hardware quality control"
+      ]
+    },
+    {
+      "role": "Support Engineer",
+      "company": "CRYSTAL TECHNOLOGY BANGLADESH LTD.",
+      "period": "2021 – 2022",
+      "location": "Madaripur, Bangladesh",
+      "responsibilities": [
+        "Network administration and cybersecurity monitoring",
+        "End-user technical support for large-scale enterprise systems",
+        "Hardware optimization and preventative maintenance"
+      ]
+    },
+    {
+      "role": "IT Executive",
+      "company": "Adorsho Online Network",
+      "period": "2019 – 2021",
+      "location": "Madaripur, Bangladesh",
+      "responsibilities": [
+        "Deployment and monitoring of CCTV and physical security systems",
+        "ISP-level router networking and troubleshooting",
+        "Inventory quality control and IT asset management"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Science (BSc)",
+      "institution": "Daffodil International University",
+      "period": "2014 – 2018",
+      "location": "Dhaka"
+    },
+    {
+      "degree": "Diploma in Engineering",
+      "institution": "Barishal Polytechnic Institute",
+      "period": "2011 – 2014",
+      "location": "Barishal"
+    }
+  ],
+  "skills": [
+    "Digital Forensics", "Cybersecurity", "Web Security", "Network Admin", "Linux", "Windows Server", "Python", "SQL", "Burp Suite", "Wireshark", "Metasploit"
+  ],
+  "languages": ["Bengali (Native)", "English (Professional)"]
+}
