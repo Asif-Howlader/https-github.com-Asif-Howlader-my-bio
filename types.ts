@@ -1,4 +1,11 @@
 
+// Fix: Added Project interface to support projects property in PortfolioData
+export interface Project {
+  name: string;
+  url: string;
+  description?: string;
+}
+
 export interface WorkExperience {
   role: string;
   company: string;
@@ -44,6 +51,8 @@ export interface PortfolioData {
   experience: WorkExperience[];
   education: Education[];
   skills: string[] | SkillGroup[];
+  // Fix: Added projects property which was missing from the interface
+  projects?: Project[];
   toolsets?: {
     category: string;
     items: string[];

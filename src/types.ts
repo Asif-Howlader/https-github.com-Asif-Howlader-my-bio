@@ -18,6 +18,12 @@ export interface SkillGroup {
   skills: string[];
 }
 
+export interface Project {
+  name: string;
+  url: string;
+  description?: string;
+}
+
 export interface PortfolioData {
   name: string;
   title: string;
@@ -33,4 +39,5 @@ export interface PortfolioData {
   experience: WorkExperience[];
   education: Education[];
   skills: string[] | SkillGroup[];
+  projects?: Project[];
 }

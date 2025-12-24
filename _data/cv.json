@@ -12,36 +12,35 @@
   "experience": [
     {
       "role": "IT Officer",
-      "company": "Government ICT Project",
-      "period": "2022 – Present",
+      "company": "Bangladesh Government ICT Project",
+      "period": "08/05/2022 – Present",
       "location": "Dhaka, Bangladesh",
       "responsibilities": [
-        "Infrastructure maintenance & specialized technical support",
-        "Lead Web Application Development and security testing",
-        "Implementation of Digital Forensic protocols for project assets",
-        "Vendor relationship management and hardware quality control"
+        "Maintenance of computers and network systems",
+        "Managing relations with suppliers",
+        "Digital Forensics, Web Application Development and Testing"
       ]
     },
     {
       "role": "Support Engineer",
-      "company": "Crystal Technology Bangladesh Ltd.",
-      "period": "2021 – 2022",
+      "company": "CRYSTAL TECHNOLOGY BANGLADESH LTD.",
+      "period": "02/10/2021 – 30/04/2022",
       "location": "Madaripur, Bangladesh",
       "responsibilities": [
-        "Network administration and cybersecurity monitoring",
-        "End-user technical support for large-scale enterprise systems",
-        "Hardware optimization and preventative maintenance"
+        "Network Engineering and Administration",
+        "Cyber Security monitoring and implementation",
+        "Technical Support Engineering and computer maintenance"
       ]
     },
     {
       "role": "IT Executive",
       "company": "Adorsho Online Network",
-      "period": "2019 – 2021",
+      "period": "01/01/2019 – 30/09/2021",
       "location": "Madaripur, Bangladesh",
       "responsibilities": [
-        "Deployment and monitoring of CCTV and physical security systems",
-        "ISP-level router networking and troubleshooting",
-        "Inventory quality control and IT asset management"
+        "Network maintenance, router configuration and troubleshooting",
+        "CCTV system setup and monitoring",
+        "IT Product Quality Control and Purchasing"
       ]
     }
   ],
@@ -50,17 +49,47 @@
       "degree": "Bachelor of Science (BSc)",
       "institution": "Daffodil International University",
       "period": "2014 – 2018",
-      "location": "Dhaka"
+      "location": "Dhaka, Bangladesh"
     },
     {
       "degree": "Diploma in Engineering",
       "institution": "Barishal Polytechnic Institute",
       "period": "2011 – 2014",
-      "location": "Barishal"
+      "location": "Barishal, Bangladesh"
+    },
+    {
+      "degree": "SSC",
+      "institution": "Al Haj Amin Uddin High School",
+      "period": "2010",
+      "location": "Madaripur, Bangladesh"
     }
   ],
   "skills": [
-    "Digital Forensics", "Cybersecurity", "Web Security", "Network Admin", "Linux", "Windows Server", "Python", "SQL", "Burp Suite", "Wireshark", "Metasploit"
+    "Digital Forensics", "Cybersecurity Management", "AI Engineering", "Python", "Django", "SQL", "Bash Scripting", "Web Scraping", "Networking", "Troubleshooting"
   ],
-  "languages": ["Bengali (Native)", "English (Professional)"]
+  "training": [
+    { "title": "Vehicle Paladin Forensics", "provider": "MH SERVICE WORLD OF FORENSIC" },
+    { "title": "MTCNA", "provider": "Mikrotikis SIA" },
+    { "title": "CCNA", "provider": "Triangle Training" },
+    { "title": "Fortinet NSE 1-3", "provider": "FORTINET" },
+    { "title": "compTIA Network+", "provider": "cybrary" }
+  ],
+  "languages": ["Bengali (Native)", "English (Professional)"],
+  "projects": [
+    {
+      "name": "Automated video search, play and download one by one from YouTube",
+      "url": "https://github.com/Asif-Howlader/youtube_d.git",
+      "description": "Python automation for video searching and sequential downloading."
+    },
+    {
+      "name": "[Empty Project Slot 02]",
+      "url": "#",
+      "description": "Project documentation pending."
+    },
+    {
+      "name": "Security Information and Event Management",
+      "url": "https://github.com/Asif-Howlader/SIEM.git",
+      "description": "Executing the agent script, the mother solution will collect different types of logs."
+    }
+  ]
 }

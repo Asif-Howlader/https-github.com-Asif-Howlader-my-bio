@@ -7,7 +7,7 @@ export const portfolioData: PortfolioData = {
   contact: {
     email: "asifnowlader4@gmail.com",
     phone: "(+880) 1970321576",
-    address: "Shahid Bacchu Sadak, Tormugoria, Master Colony, Madaripur. Dhaka-1230, Bangladesh",
+    address: "House 8/1, Block-3, Road-06, Fulbadia, Turag, Dhaka-1230. Home: Master Colony, Madaripur, Bangladesh",
     linkedin: "linkedin.com/in/saddamhowlader/",
     twitter: "x.com/saddamhowlader6"
   },
@@ -15,7 +15,7 @@ export const portfolioData: PortfolioData = {
     {
       role: "IT Officer",
       company: "Bangladesh Government ICT Project",
-      period: "2022 – Present",
+      period: "08/05/2022 – Present",
       location: "Dhaka, Bangladesh",
       responsibilities: [
         "Infrastructure maintenance & specialized technical support",
@@ -27,7 +27,7 @@ export const portfolioData: PortfolioData = {
     {
       role: "Support Engineer",
       company: "CRYSTAL TECHNOLOGY BANGLADESH LTD.",
-      period: "2021 – 2022",
+      period: "02/10/2021 – 30/04/2022",
       location: "Madaripur, Bangladesh",
       responsibilities: [
         "Network administration & cybersecurity monitoring",
@@ -38,7 +38,7 @@ export const portfolioData: PortfolioData = {
     {
       role: "IT Executive",
       company: "Adorsho Online Network",
-      period: "2019 – 2021",
+      period: "01/01/2019 – 30/09/2021",
       location: "Madaripur, Bangladesh",
       responsibilities: [
         "ISP-level router networking and troubleshooting",
@@ -52,30 +52,35 @@ export const portfolioData: PortfolioData = {
       degree: "Bachelor of Science (BSc)",
       institution: "Daffodil International University",
       period: "2014 – 2018",
-      location: "Dhaka"
+      location: "Dhaka, Bangladesh"
     },
     {
       degree: "Diploma in Engineering",
       institution: "Barishal Polytechnic Institute",
       period: "2011 – 2014",
-      location: "Barishal"
+      location: "Barishal, Bangladesh"
     }
   ],
   skills: [
-    "Digital Forensics", "Cybersecurity", "Network Admin", "Linux", "Windows Server", 
-    "Python", "SQL", "Burp Suite", "Wireshark", "Metasploit", "Virtualization"
+    "Digital Forensics", "Cybersecurity", "Network Admin", "Linux", 
+    "Python", "SQL", "Burp Suite", "Wireshark", "Metasploit"
   ],
-  toolsets: [
-    { category: "Forensics", items: ["Autopsy", "FTK Imager", "Volatility"] },
-    { category: "Security", items: ["Burp Suite", "Nmap", "Metasploit"] },
-    { category: "Networks", items: ["Wireshark", "Cisco Packet Tracer", "MikroTik"] }
-  ],
-  training: [
-    { title: "Digital Forensics Essentials", provider: "Government ICT Project" },
-    { title: "Advanced Cybersecurity Protocols", provider: "Crystal Technology" }
-  ],
-  references: [
-    { name: "IT Project Lead", role: "Government ICT Project", contact: "Available on request" }
-  ],
-  languages: ["Bengali (Native)", "English (Professional)"]
+  languages: ["Bengali (Native)", "English (Professional)"],
+  projects: [
+    {
+      name: "automated video search, play and download one by one from YouTube",
+      url: "https://github.com/saddamhowlader",
+      description: "Python-based automation for media stream processing and local storage."
+    },
+    {
+      name: "Network Traffic Analyzer & Intrusion Detection System",
+      url: "https://github.com/saddamhowlader",
+      description: "Real-time packet inspection tool built with Scapy for security auditing."
+    },
+    {
+      name: "Automated Server Security Hardening Script",
+      url: "https://github.com/saddamhowlader",
+      description: "Bash/Python utility for fast deployment of security baselines on Linux."
+    }
+  ]
 };
