@@ -17,21 +17,34 @@ export const portfolioData: PortfolioData = {
       company: "Bangladesh Government ICT Project",
       period: "2022 – Present",
       location: "Dhaka, Bangladesh",
-      responsibilities: ["Infrastructure maintenance & specialized technical support", "Web App Dev & security testing", "Digital Forensics & Incident Response"]
+      responsibilities: [
+        "Infrastructure maintenance & specialized technical support",
+        "Web Application Development & security testing",
+        "Digital Forensics & Incident Response (DFIR)",
+        "Management of national ICT assets"
+      ]
     },
     {
       role: "Support Engineer",
       company: "CRYSTAL TECHNOLOGY BANGLADESH LTD.",
       period: "2021 – 2022",
       location: "Madaripur, Bangladesh",
-      responsibilities: ["Network administration & cybersecurity monitoring", "End-user enterprise technical support"]
+      responsibilities: [
+        "Network administration & cybersecurity monitoring",
+        "Enterprise-level technical support for government departments",
+        "Hardware optimization and preventative maintenance"
+      ]
     },
     {
       role: "IT Executive",
       company: "Adorsho Online Network",
       period: "2019 – 2021",
       location: "Madaripur, Bangladesh",
-      responsibilities: ["Deployment and monitoring of CCTV and physical security systems", "ISP-level router networking"]
+      responsibilities: [
+        "ISP-level router networking and troubleshooting",
+        "Deployment and monitoring of CCTV and physical security systems",
+        "Hardware quality control and inventory management"
+      ]
     }
   ],
   education: [
@@ -49,19 +62,20 @@ export const portfolioData: PortfolioData = {
     }
   ],
   skills: [
-    "Digital Forensics", "Cybersecurity", "Python", "Linux", "Networking", "Burp Suite", "Wireshark", "Metasploit", "Windows Server", "SQL"
+    "Digital Forensics", "Cybersecurity", "Network Admin", "Linux", "Windows Server", 
+    "Python", "SQL", "Burp Suite", "Wireshark", "Metasploit", "Virtualization"
   ],
   toolsets: [
-    { category: "Security", items: ["Burp Suite", "Wireshark", "Metasploit", "Nmap"] },
-    { category: "Forensics", items: ["Autopsy", "FTK Imager", "Volatility"] }
+    { category: "Forensics", items: ["Autopsy", "FTK Imager", "Volatility"] },
+    { category: "Security", items: ["Burp Suite", "Nmap", "Metasploit"] },
+    { category: "Networks", items: ["Wireshark", "Cisco Packet Tracer", "MikroTik"] }
   ],
   training: [
-    { title: "Certified Ethical Hacker", provider: "EC-Council" },
-    { title: "Cisco Certified Network Associate", provider: "Cisco" }
+    { title: "Digital Forensics Essentials", provider: "Government ICT Project" },
+    { title: "Advanced Cybersecurity Protocols", provider: "Crystal Technology" }
   ],
   references: [
-    { name: "Project Manager", role: "Govt ICT Project", contact: "Available on request" },
-    { name: "Senior Engineer", role: "Crystal Tech", contact: "Available on request" }
+    { name: "IT Project Lead", role: "Government ICT Project", contact: "Available on request" }
   ],
   languages: ["Bengali (Native)", "English (Professional)"]
 };
