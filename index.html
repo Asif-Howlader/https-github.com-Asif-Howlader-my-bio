@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saddam Howlader | IT Infrastructure & Cybersecurity</title>
+    <title>Saddam Howlader | Cyber Architecture</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -12,12 +11,16 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
+                        display: ['Space Grotesk', 'sans-serif'],
                     },
                     colors: {
-                        accent: '#6366f1',
-                        security: '#22d3ee',
+                        cyber: {
+                            cyan: '#00f5ff',
+                            magenta: '#ff00ff',
+                            green: '#39ff14',
+                            deep: '#050505',
+                        }
                     }
                 }
             }
@@ -25,101 +28,77 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #020617;
-            --card-dark: rgba(15, 23, 42, 0.6);
-            --border-glow: rgba(99, 102, 241, 0.2);
+            --glow-color: #00f5ff;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-dark);
-            color: #f1f5f9;
-            transition: background-color 0.5s ease;
+            background-color: #050505;
+            color: #e2e8f0;
             overflow-x: hidden;
+            transition: background-color 0.5s ease;
         }
 
-        /* Subtle scanline effect for that security feel */
-        body::after {
-            content: " ";
+        html.light body {
+            background-color: #f8fafc;
+            color: #0f172a;
+            --glow-color: #6366f1;
+        }
+
+        /* Digital Grid Background */
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(0, 245, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 245, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        html.light .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+        }
+
+        /* Scanline Effect */
+        .scanlines::before {
+            content: "";
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.01));
-            background-size: 100% 2px, 3px 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
             pointer-events: none;
-            z-index: 999;
-            opacity: 0.3;
+            z-index: 100;
+            opacity: 0.1;
         }
 
-        .tech-card {
-            background: var(--card-dark);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .cyber-border {
+            border: 1px solid var(--glow-color);
+            box-shadow: 0 0 10px rgba(0, 245, 255, 0.1);
         }
 
-        .tech-card:hover {
-            border-color: rgba(99, 102, 241, 0.4);
-            background: rgba(15, 23, 42, 0.8);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.3);
+        .text-glow {
+            text-shadow: 0 0 10px var(--glow-color);
         }
 
-        /* Animated border corner for cards */
-        .tech-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 20px;
-            height: 20px;
-            border-top: 2px solid var(--accent);
-            border-left: 2px solid var(--accent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
         }
 
-        .tech-card:hover::before {
-            opacity: 1;
+        .glitch-hover:hover {
+            animation: glitch 0.3s infinite;
         }
 
-        .glow-text {
-            text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
-        }
-
-        .timeline-line {
-            background: linear-gradient(to bottom, var(--accent) 0%, transparent 100%);
-        }
-
-        @keyframes pulse-slow {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.5; }
-        }
-
-        .animate-pulse-slow {
-            animation: pulse-slow 4s infinite ease-in-out;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #020617;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6366f1;
+        .module-header {
+            background: linear-gradient(90deg, var(--glow-color) 0%, transparent 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 <script type="importmap">
@@ -132,9 +111,8 @@
 }
 </script>
 </head>
-<body class="antialiased selection:bg-indigo-500/30">
+<body class="antialiased cyber-grid scanlines">
     <div id="root"></div>
-        <script type="module" src="/src/main.tsx"></script>
-        <script type="module" src="/src/main.tsx"></script>    
+    <script type="module" src="./index.tsx"></script>
 </body>
 </html>

@@ -1,16 +1,19 @@
-
 import React, { useEffect, useState } from 'react';
-
 
 const App: React.FC = () => {
   const [data, setData] = useState<any>(null);
-  const [imgError, setImgError] = useState(false);
-  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+  const [isDark, setIsDark] = useState<boolean>(true); // Default to dark for cyber theme
 
   useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date().toLocaleTimeString()), 1000);
-    return () => clearInterval(timer);
-  }, []);
+    const root = window.document.documentElement;
+    if (isDark) {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    }
+  }, [isDark]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -20,7 +23,7 @@ const App: React.FC = () => {
           const json = await response.json();
           setData(json);
         } else {
-          throw new Error('Local fallback');
+          throw new Error('Fallback');
         }
       } catch (err) {
         import('./data').then(mod => {
@@ -31,233 +34,266 @@ const App: React.FC = () => {
     loadData();
   }, []);
 
-  if (!data) return (
-    <div className="h-screen w-full flex flex-col items-center justify-center bg-[#020617]">
-      <div className="w-64 h-1 bg-slate-800 rounded-full overflow-hidden">
-        <div className="h-full bg-indigo-500 animate-[loading_2s_infinite]"></div>
-      </div>
-      <span className="mt-4 font-mono text-[10px] text-slate-500 tracking-[0.3em] uppercase">Initializing System...</span>
-      <style>{`
-        @keyframes loading {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-      `}</style>
-    </div>
-  );
+  if (!data) return null;
 
-  const profileImg = data.profile_image || data.profileImage;
+  const profileImg = data.profile_image || data.profileImage || 'input_file_0.png';
 
   return (
-    <div className="min-h-screen pb-24 relative">
-      {/* Background Ambience */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-500/10 blur-[120px] rounded-full"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-cyan-500/10 blur-[120px] rounded-full"></div>
-      </div>
-
-      {/* Header Info Bar */}
-      <nav className="sticky top-0 z-50 w-full border-b border-white/5 bg-[#020617]/80 backdrop-blur-md px-6 py-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-            <span className="font-mono text-[11px] font-bold tracking-widest text-slate-400 uppercase">System Status: Active</span>
-          </div>
-          <div className="flex items-center gap-8 font-mono text-[11px] text-slate-500">
-            <span className="hidden md:inline">LOC: 23.8103° N, 90.4125° E</span>
-            <span className="text-slate-300 font-bold">{currentTime}</span>
-          </div>
+    <div className="min-h-screen font-mono selection:bg-cyber-cyan selection:text-black">
+      
+      {/* HUD Header */}
+      <header className="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-center border-b border-cyber-cyan/20 bg-black/80 backdrop-blur-md">
+        <div className="flex items-center gap-4">
+           <div className="w-10 h-10 border border-cyber-cyan flex items-center justify-center relative overflow-hidden group">
+             <div className="absolute inset-0 bg-cyber-cyan/10 group-hover:bg-cyber-cyan/30 transition-all"></div>
+             <span className="text-cyber-cyan font-bold text-lg text-glow">SH</span>
+           </div>
+           <div>
+             <div className="text-[10px] text-cyber-cyan font-bold tracking-widest leading-none mb-1">USER_AUTHENTICATED</div>
+             <div className="text-xs font-bold uppercase tracking-tighter">{data.name}</div>
+           </div>
         </div>
-      </nav>
 
-      <main className="max-w-6xl mx-auto px-6 pt-12 lg:pt-20">
+        <div className="flex items-center gap-6">
+          <div className="hidden md:flex gap-4 text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyber-green animate-pulse"></span>
+              Secure Connection
+            </div>
+            <div>Node: Dhaka_24.0</div>
+          </div>
+          
+          {/* Cyber Toggle */}
+          <button 
+            onClick={() => setIsDark(!isDark)}
+            className="flex items-center gap-2 border border-cyber-cyan/40 px-3 py-1.5 hover:border-cyber-cyan transition-all group"
+          >
+            <span className="text-[9px] font-bold text-cyber-cyan uppercase group-hover:text-glow">Theme_Swap</span>
+            <div className={`w-4 h-4 border border-cyber-cyan flex items-center justify-center ${isDark ? 'bg-cyber-cyan' : ''}`}>
+              {!isDark && <div className="w-2 h-2 bg-cyber-cyan"></div>}
+            </div>
+          </button>
+        </div>
+      </header>
+
+      <main className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-40 pb-32">
         
-        {/* PROFILE HEADER MODULE */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-20 items-center">
-          <div className="lg:col-span-4 flex justify-center lg:justify-start">
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-[2rem] opacity-20 group-hover:opacity-100 blur transition duration-1000"></div>
-              <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-[1.8rem] overflow-hidden border border-white/10 tech-card">
-                {!imgError ? (
-                  <img 
-                    src={profileImg} 
-                    alt={data.name} 
-                    className="w-full h-full object-cover filter brightness-90 group-hover:brightness-100 transition duration-500"
-                    onError={() => setImgError(true)}
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900">
-                    <span className="text-8xl mb-4">👤</span>
-                    <span className="font-mono text-[10px] text-slate-500 uppercase tracking-widest">Image Data Offline</span>
-                  </div>
-                )}
-                {/* Decorative scanning line */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-indigo-500/50 shadow-[0_0_15px_indigo] animate-[scan_4s_linear_infinite] pointer-events-none"></div>
+        {/* TERMINAL HERO */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-40">
+          <div className="lg:col-span-8">
+            <div className="mb-6 flex gap-2">
+               <span className="text-cyber-cyan font-bold">$</span>
+               <span className="text-zinc-500">whoami --verbose</span>
+            </div>
+            <h1 className="font-display text-6xl md:text-9xl font-black tracking-tighter uppercase mb-10 leading-[0.85]">
+              ARCHITECTING<br/>
+              <span className="text-cyber-cyan text-glow">RESI</span>LIENCE
+            </h1>
+            <p className="text-lg md:text-2xl text-zinc-400 leading-relaxed mb-12 max-w-2xl font-light">
+              Digital infrastructure and forensic expert operating at the intersection of <span className="text-cyber-cyan border-b border-cyber-cyan">Government ICT</span> and <span className="text-cyber-magenta border-b border-cyber-magenta">Cybersecurity protocols</span>.
+            </p>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+              <div className="border-l-2 border-cyber-cyan pl-6">
+                <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mb-2">Designation</div>
+                <div className="text-sm font-bold uppercase">{data.title}</div>
+              </div>
+              <div className="border-l-2 border-cyber-magenta pl-6">
+                <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mb-2">Core_Directive</div>
+                <div className="text-sm font-bold uppercase">Digital Forensics</div>
+              </div>
+              <div className="border-l-2 border-cyber-green pl-6">
+                <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mb-2">Network_Entry</div>
+                <a href={`mailto:${data.contact.email}`} className="text-sm font-bold uppercase text-cyber-cyan hover:text-white transition-colors underline decoration-cyber-cyan/30">Connect_Mail</a>
               </div>
             </div>
           </div>
-
-          <div className="lg:col-span-8 space-y-8">
-            <div>
-              <div className="inline-flex items-center gap-3 px-3 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-mono text-[10px] font-bold uppercase tracking-[0.2em] mb-6">
-                Verified Identity // 01001011
+          
+          <div className="lg:col-span-4 relative">
+            <div className="border border-cyber-cyan/30 p-2 bg-cyber-cyan/5 backdrop-blur-sm">
+              <div className="aspect-square relative overflow-hidden border border-cyber-cyan/20">
+                <img 
+                  src={profileImg} 
+                  alt={data.name} 
+                  className="w-full h-full object-cover grayscale mix-blend-screen brightness-125 contrast-125"
+                />
+                {/* Glitch Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-cyber-cyan/20 to-transparent pointer-events-none"></div>
+                <div className="absolute top-4 left-4 bg-cyber-cyan text-black text-[9px] font-bold px-2 py-0.5 uppercase tracking-widest">Live_Signal</div>
+                
+                {/* Data bits */}
+                <div className="absolute bottom-4 right-4 flex flex-col items-end gap-1 opacity-40">
+                   <div className="w-16 h-1 bg-cyber-cyan"></div>
+                   <div className="w-10 h-1 bg-cyber-magenta"></div>
+                   <div className="w-20 h-1 bg-cyber-green"></div>
+                </div>
               </div>
-              <h1 className="text-6xl md:text-8xl font-black tracking-tight text-white mb-4 drop-shadow-2xl">
-                {data.name.split(' ')[0]}<span className="text-indigo-500">.</span>{data.name.split(' ')[1]}
-              </h1>
-              <h2 className="text-xl md:text-2xl font-mono text-slate-400 font-bold uppercase tracking-wider">
-                &lt;{data.title} /&gt;
-              </h2>
             </div>
-
-            <p className="text-lg text-slate-400 max-w-2xl leading-relaxed">
-              Specializing in <span className="text-white font-bold">IT Infrastructure & Cybersecurity</span>. Architecting secure networks and managing critical government ICT assets with a focus on Digital Forensics.
-            </p>
-
-            <div className="flex flex-wrap gap-4">
-              <a href={`mailto:${data.contact.email}`} className="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg transition-all shadow-lg shadow-indigo-600/20">
-                Secure Message
-              </a>
-              <a href={`https://${data.contact.linkedin}`} target="_blank" className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-lg transition-all">
-                LinkedIn Directory
-              </a>
+            <div className="mt-4 flex justify-between items-center px-2">
+               <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">ID: {Math.random().toString(36).substr(2, 9).toUpperCase()}</span>
+               <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">AUTH_VERIFIED</span>
             </div>
           </div>
         </section>
 
-        {/* CORE GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          
-          {/* EXPERTISE BOX */}
-          <div className="md:col-span-8 tech-card p-10 rounded-3xl">
-            <h3 className="font-mono text-[10px] font-black uppercase text-indigo-400 tracking-[0.3em] mb-10 flex items-center gap-4">
-              <span className="w-8 h-[1px] bg-indigo-500/50"></span> Expertise_Stack
-            </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {data.skills.map((skill: string, i: number) => (
-                <div key={i} className="flex flex-col gap-2 group cursor-default">
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500/40 group-hover:bg-indigo-400 transition-colors"></span>
-                    <span className="text-sm font-bold text-slate-300 group-hover:text-white transition-colors">{skill}</span>
+        {/* SYSTEM MODULES (EXPERIENCE) */}
+        <section className="mb-40">
+           <div className="flex items-center gap-6 mb-16">
+              <h2 className="font-display text-4xl font-bold uppercase italic text-cyber-cyan tracking-widest text-glow">Deployment_Logs</h2>
+              <div className="h-px flex-1 bg-gradient-to-r from-cyber-cyan to-transparent"></div>
+           </div>
+           
+           <div className="space-y-24">
+              {data.experience.map((exp: any, i: number) => (
+                <div key={i} className="group grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative">
+                  <div className="lg:col-span-1 text-cyber-cyan/40 text-4xl font-black italic">0{i+1}</div>
+                  <div className="lg:col-span-11 border border-zinc-800/50 p-8 hover:border-cyber-cyan/50 transition-all bg-zinc-900/10 backdrop-blur-sm relative group-hover:bg-zinc-800/20">
+                    <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-8">
+                       <div>
+                         <h3 className="text-2xl font-bold uppercase tracking-tight text-white mb-2 group-hover:text-cyber-cyan transition-colors">{exp.role}</h3>
+                         <p className="text-xs font-bold text-cyber-magenta uppercase tracking-[0.2em]">{exp.company}</p>
+                       </div>
+                       <div className="text-right">
+                         <div className="text-[10px] font-mono opacity-40 uppercase mb-1">Timeline_Range</div>
+                         <div className="text-sm font-bold font-mono text-zinc-400 group-hover:text-white">{exp.period}</div>
+                       </div>
+                    </div>
+                    
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                       {exp.responsibilities.map((res: string, j: number) => (
+                         <div key={j} className="text-xs border border-zinc-800 p-4 leading-relaxed text-zinc-400 bg-black/40 group-hover:border-zinc-700">
+                           <span className="text-cyber-cyan mr-2 font-black">»</span>
+                           {res}
+                         </div>
+                       ))}
+                    </div>
+                    
+                    {/* Decorative corner */}
+                    <div className="absolute -top-px -right-px w-8 h-8 border-t-2 border-r-2 border-cyber-cyan/0 group-hover:border-cyber-cyan transition-all"></div>
                   </div>
-                  <div className="w-full h-[2px] bg-white/5 rounded-full overflow-hidden">
-                    <div className="h-full bg-indigo-500/50 w-[85%] group-hover:w-full transition-all duration-700"></div>
+                </div>
+              ))}
+           </div>
+        </section>
+
+        {/* CORE ANALYTICS (SKILLS) */}
+        <section className="mb-40 grid grid-cols-1 lg:grid-cols-12 gap-16">
+          <div className="lg:col-span-4">
+             <div className="sticky top-32">
+               <h2 className="font-display text-4xl font-bold uppercase italic text-cyber-green tracking-widest text-glow mb-8">Skill_Matrix</h2>
+               <p className="text-sm text-zinc-500 leading-relaxed mb-8">
+                 Mapping the technical spectrum of defensive and forensic architectures.
+               </p>
+               <div className="p-6 border border-cyber-green/20 bg-cyber-green/5 text-[10px] font-mono leading-relaxed text-cyber-green/60">
+                 [ANALYSIS_MODE_ACTIVE]<br/>
+                 SCANNING_HARDWARE... OK<br/>
+                 VERIFYING_PROTOCOLS... OK<br/>
+                 SKILLSET_INDEXED_AT_100%
+               </div>
+             </div>
+          </div>
+          <div className="lg:col-span-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {data.skills.map((skill: string, i: number) => (
+                <div key={i} className="flex items-center justify-between p-6 border border-zinc-800/40 hover:border-cyber-green/40 hover:bg-cyber-green/5 transition-all group">
+                  <div className="flex items-center gap-4">
+                    <span className="text-cyber-green/40 text-[10px] font-black">#0{i+1}</span>
+                    <span className="text-sm font-bold uppercase tracking-widest group-hover:text-cyber-green transition-colors">{skill}</span>
+                  </div>
+                  <div className="flex gap-1">
+                    {[1,2,3,4,5].map(dot => (
+                      <div key={dot} className={`w-1 h-3 ${dot <= 4 ? 'bg-cyber-green/40 group-hover:bg-cyber-green' : 'bg-zinc-800'}`}></div>
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
           </div>
+        </section>
 
-          {/* QUICK STATS */}
-          <div className="md:col-span-4 grid grid-rows-2 gap-6">
-            <div className="tech-card p-8 rounded-3xl flex flex-col justify-center items-center text-center">
-              <span className="text-5xl font-black text-white glow-text mb-1 tracking-tighter">06+</span>
-              <span className="font-mono text-[10px] font-bold text-slate-500 uppercase tracking-widest">Years Active</span>
-            </div>
-            <div className="tech-card p-8 rounded-3xl flex flex-col justify-center items-center text-center bg-indigo-600/10 border-indigo-500/30">
-              <span className="text-5xl font-black text-indigo-400 glow-text mb-1 tracking-tighter">12+</span>
-              <span className="font-mono text-[10px] font-bold text-indigo-500/60 uppercase tracking-widest">Project Nodes</span>
-            </div>
-          </div>
-
-          {/* EXPERIENCE LOG */}
-          <div className="md:col-span-12 tech-card p-10 md:p-14 rounded-[2.5rem] mt-4">
-             <h3 className="font-mono text-[10px] font-black uppercase text-slate-500 tracking-[0.3em] mb-16 text-center">Operation_History</h3>
-             <div className="space-y-16">
-               {data.experience.map((exp: any, i: number) => (
-                 <div key={i} className="relative grid md:grid-cols-4 gap-8">
-                   <div className="md:col-span-1">
-                     <span className="font-mono text-[12px] font-bold text-indigo-400 mb-2 block tracking-tighter">{exp.period}</span>
-                     <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{exp.location}</div>
-                   </div>
-                   <div className="md:col-span-3 border-l border-white/5 pl-8 md:pl-12 relative">
-                     <div className="absolute top-1.5 left-[-5px] w-[10px] h-[10px] rounded-full bg-indigo-500 shadow-[0_0_10px_#6366f1]"></div>
-                     <h4 className="text-2xl font-black text-white mb-2 leading-tight uppercase tracking-tight">{exp.role}</h4>
-                     <p className="text-sm font-bold text-indigo-500/80 mb-6 uppercase tracking-[0.15em]">{exp.company}</p>
-                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                       {exp.responsibilities.map((res: string, j: number) => (
-                         <li key={j} className="flex gap-3 text-slate-400">
-                           <svg className="w-4 h-4 text-indigo-500/50 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                           <span className="text-sm leading-relaxed">{res}</span>
-                         </li>
-                       ))}
-                     </ul>
-                   </div>
+        {/* PROTOCOLS (EDUCATION) */}
+        <section className="mb-40 border-t border-zinc-800 pt-20">
+           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+              <div className="space-y-12">
+                 <div className="flex items-center gap-4 mb-10">
+                    <span className="text-cyber-magenta font-black text-2xl">⚡</span>
+                    <h2 className="font-display text-3xl font-bold uppercase tracking-widest">Academic_Protocols</h2>
                  </div>
-               ))}
-             </div>
-          </div>
-
-          {/* ACADEMICS & LANGUAGES */}
-          <div className="md:col-span-7 tech-card p-10 rounded-3xl">
-             <h3 className="font-mono text-[10px] font-black uppercase text-indigo-400 tracking-[0.3em] mb-10">Academic_Records</h3>
-             <div className="space-y-10">
-               {data.education.map((edu: any, i: number) => (
-                 <div key={i} className="flex gap-6 group">
-                   <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center shrink-0 border border-white/5 group-hover:border-indigo-500/30 transition-all">
-                     <svg className="w-6 h-6 text-slate-500 group-hover:text-indigo-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>
+                 {data.education.map((edu: any, i: number) => (
+                   <div key={i} className="relative pl-12 before:absolute before:left-0 before:top-0 before:w-1 before:h-full before:bg-cyber-magenta/20 hover:before:bg-cyber-magenta transition-all">
+                      <h3 className="text-2xl font-bold uppercase mb-2 tracking-tight">{edu.degree}</h3>
+                      <p className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4">{edu.institution}</p>
+                      <div className="inline-block px-4 py-1 border border-zinc-800 text-[10px] font-mono uppercase tracking-widest text-zinc-400">{edu.period}</div>
                    </div>
-                   <div>
-                     <h4 className="text-lg font-black text-white leading-tight uppercase mb-1">{edu.degree}</h4>
-                     <p className="text-xs font-bold text-slate-500 tracking-wider mb-2">{edu.institution}</p>
-                     <span className="font-mono text-[10px] text-indigo-500/60">{edu.period}</span>
-                   </div>
-                 </div>
-               ))}
-             </div>
-          </div>
-
-          <div className="md:col-span-5 flex flex-col gap-6">
-            <div className="tech-card p-8 rounded-3xl flex-1">
-              <h3 className="font-mono text-[10px] font-black uppercase text-indigo-400 tracking-[0.3em] mb-6">Language_Protocols</h3>
-              <div className="space-y-4">
-                {data.languages.map((lang: string, i: number) => (
-                  <div key={i} className="flex items-center justify-between group">
-                    <span className="font-bold text-slate-300 group-hover:text-white transition-colors uppercase tracking-widest text-xs">{lang.split(' ')[0]}</span>
-                    <span className="font-mono text-[10px] text-indigo-500/80 bg-indigo-500/10 px-2 py-0.5 rounded">{lang.split(' ')[1]}</span>
-                  </div>
-                ))}
+                 ))}
               </div>
-            </div>
-            <div className="tech-card p-8 rounded-3xl bg-slate-950/50 flex flex-col justify-center items-center text-center">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-ping"></div>
-                <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">Ready for Tasking</span>
-              </div>
-              <p className="text-[11px] text-slate-500 font-medium">Currently processing inquiries via encrypted channels.</p>
-            </div>
-          </div>
-
-        </div>
-
-        {/* FOOTER DASHBOARD */}
-        <footer className="mt-32 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-end gap-10 opacity-60 hover:opacity-100 transition-opacity">
-          <div className="space-y-4">
-            <div className="font-black text-4xl text-white tracking-tighter">Saddam<span className="text-indigo-500"></span>Howlader</div>
-            <div className="font-mono text-[10px] text-slate-500 leading-relaxed uppercase tracking-widest">
-              Digital Artifact v4.0.0 &bull; 2024 Build<br/>
-              Security Clearance: Administrator
-            </div>
-          </div>
-          <div className="flex flex-col items-end gap-4">
-            <div className="flex gap-4">
-               {['LN', 'X', 'GH', 'FB'].map((social) => (
-                 <div key={social} className="w-10 h-10 border border-white/10 rounded-lg flex items-center justify-center font-mono text-[10px] hover:bg-indigo-600 hover:text-white transition-all cursor-pointer">
-                   {social}
+              
+              <div className="space-y-12">
+                 <div className="flex items-center gap-4 mb-10">
+                    <span className="text-cyber-cyan font-black text-2xl">🌐</span>
+                    <h2 className="font-display text-3xl font-bold uppercase tracking-widest">Communication_Link</h2>
                  </div>
-               ))}
-            </div>
-            <div className="text-[10px] font-mono text-indigo-500/50 uppercase tracking-widest">End of Transmission</div>
-          </div>
+                 <div className="space-y-6">
+                   {data.languages.map((lang: string, i: number) => (
+                     <div key={i} className="flex items-center justify-between border-b border-zinc-800/40 pb-4 group">
+                        <span className="text-xl font-bold tracking-tight group-hover:text-cyber-cyan transition-colors uppercase">{lang.split(' ')[0]}</span>
+                        <div className="flex items-center gap-4">
+                           <span className="text-[10px] font-mono opacity-40 italic uppercase">{lang.split(' ')[1]}</span>
+                           <div className="w-20 h-1 bg-zinc-800 relative">
+                              <div className={`absolute left-0 top-0 h-full bg-cyber-cyan ${lang.includes('Native') ? 'w-full' : 'w-4/5'}`}></div>
+                           </div>
+                        </div>
+                     </div>
+                   ))}
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        {/* UPLINK (CONTACT) */}
+        <section className="relative overflow-hidden p-12 lg:p-24 border border-cyber-cyan group">
+           <div className="absolute top-0 right-0 w-64 h-64 bg-cyber-cyan/5 blur-3xl group-hover:bg-cyber-cyan/10 transition-all"></div>
+           <div className="relative z-10 flex flex-col items-center text-center">
+              <div className="text-[10px] font-bold text-cyber-cyan uppercase tracking-[0.5em] mb-10 glitch-hover cursor-default">INITIALIZING_SECURE_CHANNEL</div>
+              <h2 className="font-display text-5xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-12">
+                Establish<br/>
+                <span className="text-cyber-cyan text-glow">Uplink.</span>
+              </h2>
+              <div className="flex flex-col md:flex-row gap-4 w-full max-w-2xl">
+                 <a 
+                   href={`mailto:${data.contact.email}`} 
+                   className="flex-1 py-6 border border-cyber-cyan text-cyber-cyan hover:bg-cyber-cyan hover:text-black font-black uppercase tracking-[0.3em] transition-all duration-300 text-center relative overflow-hidden group/btn"
+                 >
+                   <span className="relative z-10">Send_Transmission</span>
+                 </a>
+                 <a 
+                   href={`https://${data.contact.linkedin}`} 
+                   target="_blank"
+                   className="flex-1 py-6 border border-zinc-700 text-zinc-500 hover:border-white hover:text-white font-black uppercase tracking-[0.3em] transition-all duration-300 text-center"
+                 >
+                   Access_Social_Nodes
+                 </a>
+              </div>
+           </div>
+        </section>
+
+        {/* HUD FOOTER */}
+        <footer className="mt-40 pt-10 border-t border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-8 opacity-40">
+           <div className="text-[9px] font-bold uppercase tracking-[0.4em]">SADDAM_HOWLADER // CORE_VERSION_4.0_STABLE</div>
+           <div className="flex gap-10">
+              <a href="#" className="text-[9px] font-bold uppercase tracking-widest hover:text-cyber-cyan transition-colors">Github_Mirror</a>
+              <a href="#" className="text-[9px] font-bold uppercase tracking-widest hover:text-cyber-cyan transition-colors">Privacy_Protocol</a>
+              <span className="text-[9px] font-bold uppercase tracking-widest">DHAKA_HQ © 2024</span>
+           </div>
         </footer>
-      </main>
 
-      <style>{`
-        @keyframes scan {
-          0% { top: 0%; }
-          100% { top: 100%; }
-        }
-      `}</style>
+      </main>
+      
+      {/* Decorative corners */}
+      <div className="fixed top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-cyber-cyan/10 pointer-events-none"></div>
+      <div className="fixed top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-cyber-cyan/10 pointer-events-none"></div>
+      <div className="fixed bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-cyber-cyan/10 pointer-events-none"></div>
+      <div className="fixed bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-cyber-cyan/10 pointer-events-none"></div>
     </div>
   );
 };

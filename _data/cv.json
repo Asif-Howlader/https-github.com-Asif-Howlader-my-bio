@@ -2,7 +2,7 @@
 {
   "name": "Saddam Howlader",
   "title": "IT Officer",
-  "profile_image": "input_file_1.png",
+  "profile_image": "input_file_0.png",
   "contact": {
     "email": "asifnowlader4@gmail.com",
     "phone": "(+880) 1970321576",
@@ -14,7 +14,7 @@
     {
       "role": "IT Officer",
       "company": "Government ICT Project",
-      "period": "08/05/2022 – Present",
+      "period": "2022 – Present",
       "location": "Dhaka, Bangladesh",
       "responsibilities": [
         "Infrastructure maintenance & specialized technical support",
@@ -25,7 +25,7 @@
     },
     {
       "role": "Support Engineer",
-      "company": "CRYSTAL TECHNOLOGY BANGLADESH LTD.",
+      "company": "Crystal Technology Bangladesh Ltd.",
       "period": "2021 – 2022",
       "location": "Madaripur, Bangladesh",
       "responsibilities": [
